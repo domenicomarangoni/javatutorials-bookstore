@@ -4,26 +4,36 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%@include file="/WEB-INF/jsp/header.jsp" %>
- 
-	<h1 class="text-center">PRODOTTI</h1>
-	<p class="text-center">Elenco dei prodotti</p>
+	
+	<%@include file="/WEB-INF/jsp/navbar.jsp" %> 
+		
+	<h2 class="text-center">Elenco dei prodotti</h1>
 	<br/>
 	<div class="container card-deck mb-3 text-center mx-auto" >
 	
-		<c:forEach items="${prodotti}" var="prodotto">
-		
+		<c:forEach items="${elencoprodotti}" var="elenco">
 			<div class="row mt-5">
-				<div class="col-4">
-					<img class="img-fluid" src="/bookstore/images/${prodotto.nomeFile}">			
-				</div>
-				<div class="col-8">
-					<h5 class="">${prodotto.titolo}</h5>
-					<p class="">${prodotto.sottotitolo}</p>
-					<h6 class="text-muted">&euro; ${prodotto.prezzo } </h6>
-					<a href="/prodotto?id=${prodotto.idProdotto}" class="btn btn-primary">Dettagli</a>
-				</div>
+				<c:forEach items="${elenco}" var="prodotto">
+					
+					<div class="col-4">
+						<div class="card">
+						
+							<img class="card-img-top" src="/bookstore/images/${prodotto.nomeFile}" >
+							<div class="card-body">
+								<h5 class="card-title">${prodotto.titolo}</h5>
+								
+								<p class="text-muted">&euro; ${prodotto.prezzo } </h6>
+								<p>
+								<a href="./prodotto?id=${prodotto.idProdotto}" class="btn btn-primary">Dettagli</a>
+								</p>
+							</div>
+						</div>			
+					</div>
+				
+				</c:forEach>
+				
 			</div>
-		
+			
 		</c:forEach>
 		
 	</div>

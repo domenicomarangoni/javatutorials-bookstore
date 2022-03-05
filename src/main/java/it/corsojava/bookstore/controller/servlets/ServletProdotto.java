@@ -1,13 +1,10 @@
 package it.corsojava.bookstore.controller.servlets;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import it.corsojava.bookstore.beans.ElencoProdotti;
 import it.corsojava.bookstore.beans.Prodotto;
+import it.corsojava.bookstore.beans.Utente;
 import it.corsojava.bookstore.exceptions.ProdottoDaoException;
 import it.corsojava.bookstore.persistence.DbTools;
 import it.corsojava.bookstore.persistence.dao.DaoFactory;
@@ -19,8 +16,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet("/store/prodotti")
-public class ServletProdotti extends HttpServlet {
+@WebServlet("/store/prodotto")
+public class ServletProdotto extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -36,20 +33,22 @@ public class ServletProdotti extends HttpServlet {
 		DaoFactory factory=DbTools.getDaoFactory(req);
 		ProdottoDao dao=factory.createProdottoDao();
 		
+
+		String idProdottoStr = req.getParameter("id");
+		int idProdotto = 0;
+		
 		try {
-			List<Prodotto> prodotti = dao.getProdotti();
-			// Elaborazione della singola lista in una "lista di liste", ovvero un insieme i cui 
-			// elementi sono a loro volta liste di 3 elementi. Questo serve
-			// per suddividiere gli articoli in gruppi di 3 da impaginare cosi' in
-			// una griglia di 3 elementi per riga
-			List<List<Prodotto>> prodList=new ArrayList<List<Prodotto>>();
-			
-			ElencoProdotti elenco=new ElencoProdotti();
-			
-			prodotti.forEach(elenco::addProdotto );
-			
-			req.setAttribute("elencoprodotti", elenco.getRighe());
-			RequestDispatcher disp=req.getRequestDispatcher("/WEB-INF/jsp/prodotti.jsp");
+			idProdotto=Integer.parseInt(idProdottoStr);
+		} catch (NumberFormatException e) {
+			// Nel caso manchi idProdotto si torna a elenco prodotti
+			e.printStackTrace();
+			//resp.sendRedirect("./store/prodotti");
+		}
+		
+		try {
+			Prodotto prodotto = dao.getProdottoById(idProdotto);
+			req.setAttribute("prodotto", prodotto);
+			RequestDispatcher disp=req.getRequestDispatcher("/WEB-INF/jsp/prodotto.jsp");
 
 			disp.forward(req, resp);
 			

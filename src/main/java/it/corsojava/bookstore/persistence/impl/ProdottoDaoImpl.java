@@ -49,7 +49,7 @@ public class ProdottoDaoImpl extends BasicDaoImpl implements ProdottoDao{
 			String sql="SELECT * FROM prodotti WHERE idProdotto=?";
 			PreparedStatement st=cn.prepareStatement(sql);
 			st.setInt(1, idProdotto);
-			ResultSet rs = st.executeQuery(sql);
+			ResultSet rs = st.executeQuery();
 			
 			if(rs.next()) {
 				Prodotto p =new Prodotto();
@@ -59,6 +59,7 @@ public class ProdottoDaoImpl extends BasicDaoImpl implements ProdottoDao{
 				p.setDescrizione(rs.getString("descrizione"));
 				p.setPrezzo(rs.getBigDecimal("prezzo"));
 				p.setAliquota(rs.getBigDecimal("aliquota"));
+				p.setNomeFile(rs.getString("nomeFile"));
 				return p;
 			}else {
 				return null;

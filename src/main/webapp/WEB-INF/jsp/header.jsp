@@ -14,7 +14,7 @@
  	</head>
  	<body>
  		<header class="jumbotron  bg-dark text-white " style="margin-bottom:0px; padding:32px;" >
- 			<h1><img src="./images/logoBooks.png" style="width:50px;margin-top:-5px;" /> BOOKSTORE</h1> 		
+ 			<h1><img src="${pageContext.request.contextPath}/images/logoBooks.png" style="width:50px;margin-top:-5px;" /> BOOKSTORE</h1> 		
  		</header>
  		<main class="container">
 
